@@ -46,11 +46,6 @@ function Board() {
       id: finishColIndex[0],
       todos: finishColIndex[1].todos,
     };
-    console.log(
-      "🚀 ~ file: Board.tsx:49 ~ handleDragEnd ~ finishCol:",
-      finishCol.id
-    );
-
     if (!startCol || !finishCol) return;
 
     if (source.index === destination.index && startCol === finishCol) return;
@@ -74,11 +69,6 @@ function Board() {
     } else {
       const finishTodos = Array.from(finishCol.todos);
       finishTodos.splice(destination.index, 0, todoMoved);
-      console.log(
-        "🚀 ~ file: Board.tsx:77 ~ handleDragEnd ~ finishTodos:",
-        finishTodos
-      );
-
       const newColumns = new Map(board.columns);
       const newCol = {
         id: startCol.id,
