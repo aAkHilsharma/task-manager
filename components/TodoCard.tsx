@@ -1,5 +1,6 @@
 import { useBoardStore } from "@/store/BoardStore";
-import { XCircleIcon } from "@heroicons/react/24/solid";
+import { useUpdateModal } from "@/store/UpdateModalStore";
+import { PencilIcon, XCircleIcon } from "@heroicons/react/24/solid";
 
 import {
   DraggableProvidedDragHandleProps,
@@ -24,6 +25,28 @@ function TodoCard({
   dragHandleProps,
 }: Props) {
   const deleteTask = useBoardStore((state) => state.deleteTask);
+
+  const [setId, setTitle, setDescription, setStatus, setPrevTaskType] =
+    useBoardStore((state) => [
+      state.setId,
+      state.setNewTitleInput,
+      state.setNewDescriptionInput,
+      state.setNewTaskType,
+      state.setPrevTaskType,
+    ]);
+
+  const [openModal] = useUpdateModal((state) => [state.openModal]);
+
+  const handleClick = () => {
+    setId(todo.$id);
+    setTitle(todo.title);
+    setDescription(todo.description);
+    setStatus(id);
+    setPrevTaskType(id);
+
+    openModal();
+  };
+
   return (
     <div
       {...draggableProps}
@@ -40,6 +63,12 @@ function TodoCard({
         className="text-red-500 hover:text-red-600"
       >
         <XCircleIcon className="h-8 w-8 mr-4" />
+      </button>
+      <button
+        onClick={handleClick}
+        className="text-green-500 hover:text-green-600"
+      >
+        <PencilIcon className="h-8 w-8 mr-4" />
       </button>
     </div>
   );
