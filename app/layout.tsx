@@ -1,5 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import Modal from "@/components/AddModal";
+import UpdateModal from "@/components/UpdateModal";
 
 export const metadata: Metadata = {
   title: "Task Manager",
@@ -13,7 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-[#f5f6f8]">{children}</body>
+      <body className="bg-[#f5f6f8]">
+        {children}
+        <Modal />
+        <UpdateModal />
+      </body>
     </html>
   );
 }
