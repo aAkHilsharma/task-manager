@@ -1,10 +1,6 @@
 import { useBoardStore } from "@/store/BoardStore";
 import { useUpdateModal } from "@/store/UpdateModalStore";
-import {
-  PencilIcon,
-  PencilSquareIcon,
-  XCircleIcon,
-} from "@heroicons/react/24/solid";
+import { PencilSquareIcon, XCircleIcon } from "@heroicons/react/24/solid";
 
 import {
   DraggableProvidedDragHandleProps,
@@ -58,7 +54,7 @@ function TodoCard({
       ref={innerRef}
       className=" flex justify-between items-center bg-white rounded-md space-y-2 drop-shadow-md"
     >
-      <div className="flex flex-col p-5 space-y-4">
+      <div className="flex flex-1 md:flex-col md:items-start justify-between items-center p-5 md:space-y-4">
         <div className="">
           <p className="font-medium text-base">{todo.title}</p>
           <p className="text-gray-500 text-sm font-normal">
