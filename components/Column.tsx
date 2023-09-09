@@ -19,7 +19,10 @@ const idToColumnHeading: {
 };
 
 function Column({ id, todos, index }: Props) {
-  const [setNewTaskType] = useBoardStore((state) => [state.setNewTaskType]);
+  const [setNewTaskType, searchString] = useBoardStore((state) => [
+    state.setNewTaskType,
+    state.searchString,
+  ]);
   const [openModal] = useModalStore((state) => [state.openModal]);
 
   const handleAddTodo = () => {
@@ -47,11 +50,25 @@ function Column({ id, todos, index }: Props) {
                 <h2 className="flex justify-between font-bold text-xl p-2">
                   {idToColumnHeading[id]}
                   <span className="text-gray-500 bg-gray-200 rounded-full px-3 py-2 text-sm font-normal">
-                    {todos.length}
+                    {!searchString
+                      ? todos.length
+                      : todos.filter((todo) =>
+                          todo.title
+                            .toLowerCase()
+                            .includes(searchString.toLowerCase())
+                        ).length}
                   </span>
                 </h2>
                 <div className="space-y-2">
                   {todos.map((todo, index) => {
+                    if (
+                      searchString &&
+                      !todo.title
+                        .toLowerCase()
+                        .includes(searchString.toLowerCase())
+                    )
+                      return null;
+
                     return (
                       <Draggable
                         key={todo.$id}

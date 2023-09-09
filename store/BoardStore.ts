@@ -26,13 +26,17 @@ interface BoardState {
   setNewDescriptionInput: (input: string) => void;
   newTaskType: TypedColumn;
   setNewTaskType: (columnId: TypedColumn) => void;
+  searchString: string;
+  setSearchString: (searchString: string) => void;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
   board: {
     columns: new Map<TypedColumn, Column>(),
   },
-
+  searchString: "",
+  setSearchString: (searchString: string) =>
+    set({ searchString: searchString }),
   getBoard: async () => {
     const board = await getTodoGroupedByColunm();
     set({ board });

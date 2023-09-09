@@ -1,8 +1,14 @@
 "use client";
 
+import { useBoardStore } from "@/store/BoardStore";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 function Header() {
+  const [searchString, setSearchString] = useBoardStore((state) => [
+    state.searchString,
+    state.setSearchString,
+  ]);
+
   return (
     <header className="mb-20">
       <div className="p-5 bg-gray-500/10 rounded-b-2xl">
@@ -16,6 +22,8 @@ function Header() {
                 type="text"
                 placeholder="Search"
                 className="flex-1 outline-none p-2"
+                value={searchString}
+                onChange={(e) => setSearchString(e.target.value)}
               />
               <button type="submit" hidden>
                 Search
