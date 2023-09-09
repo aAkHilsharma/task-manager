@@ -38,6 +38,14 @@ function Board() {
     const startColIndex = columns[Number(source.droppableId)];
     const finishColIndex = columns[Number(destination.droppableId)];
 
+    if (
+      !startColIndex ||
+      startColIndex.length < 2 ||
+      !finishColIndex ||
+      finishColIndex.length < 2
+    )
+      return;
+
     const startCol: Column = {
       id: startColIndex[0],
       todos: startColIndex[1].todos,
