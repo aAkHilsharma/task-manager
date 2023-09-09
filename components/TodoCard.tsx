@@ -1,6 +1,10 @@
 import { useBoardStore } from "@/store/BoardStore";
 import { useUpdateModal } from "@/store/UpdateModalStore";
-import { PencilIcon, XCircleIcon } from "@heroicons/react/24/solid";
+import {
+  PencilIcon,
+  PencilSquareIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/solid";
 
 import {
   DraggableProvidedDragHandleProps,
@@ -54,22 +58,28 @@ function TodoCard({
       ref={innerRef}
       className=" flex justify-between items-center bg-white rounded-md space-y-2 drop-shadow-md"
     >
-      <div className="flex flex-col p-5">
-        <p className="text-lg font-medium">{todo.title}</p>
-        <p className="text-gray-500 text-sm font-normal">{todo.description}</p>
+      <div className="flex flex-col p-5 space-y-4">
+        <div className="">
+          <p className="font-medium text-base">{todo.title}</p>
+          <p className="text-gray-500 text-sm font-normal">
+            {todo.description}
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleClick}
+            className="text-gray-500 hover:text-gray-600"
+          >
+            <PencilSquareIcon className="h-5 w-5" />
+          </button>
+          <button
+            onClick={() => deleteTask(index, todo, id)}
+            className="text-red-500 hover:text-red-600"
+          >
+            <XCircleIcon className="h-6 w-6" />
+          </button>
+        </div>
       </div>
-      <button
-        onClick={() => deleteTask(index, todo, id)}
-        className="text-red-500 hover:text-red-600"
-      >
-        <XCircleIcon className="h-8 w-8 mr-4" />
-      </button>
-      <button
-        onClick={handleClick}
-        className="text-green-500 hover:text-green-600"
-      >
-        <PencilIcon className="h-8 w-8 mr-4" />
-      </button>
     </div>
   );
 }
