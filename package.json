@@ -27,6 +27,7 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
-    "@types/react-beautiful-dnd": "^13.1.4"
+    "@types/react-beautiful-dnd": "^13.1.4",
+    "encoding": "^0.1.13"
   }
 }
