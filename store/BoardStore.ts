@@ -1,18 +1,25 @@
 import { create } from "zustand";
-import { ID, databases, storage } from "@/appwrite";
+import { ID, databases } from "@/appwrite";
 import { getTodoGroupedByColunm } from "@/lib/getTodoGroupedByColumn";
 
 interface BoardState {
   board: Board;
+  $id: string;
+  prevTaskType: TypedColumn;
+  newTaskType: TypedColumn;
+  newTitleInput: string;
+  newDescriptionInput: string;
+  searchString: string;
   getBoard: () => {};
   setBoardState: (board: Board) => void;
-  updateTodoInDb: (todo: Todo, columnId: TypedColumn) => void;
-  deleteTask: (taskIndex: number, todoId: Todo, id: TypedColumn) => void;
-  addTask: (title: string, columnId: TypedColumn, description: string) => void;
-  $id: string;
   setId: (id: string) => void;
-  prevTaskType: TypedColumn;
   setPrevTaskType: (columnId: TypedColumn) => void;
+  setNewTaskType: (columnId: TypedColumn) => void;
+  setNewTitleInput: (input: string) => void;
+  setNewDescriptionInput: (input: string) => void;
+  setSearchString: (searchString: string) => void;
+  updateTodoInDb: (todo: Todo, columnId: TypedColumn) => void;
+  addTask: (title: string, columnId: TypedColumn, description: string) => void;
   updateTask: (
     $id: string,
     title: string,
@@ -20,37 +27,39 @@ interface BoardState {
     prevTaskType: TypedColumn,
     description: string
   ) => void;
-  newTitleInput: string;
-  newDescriptionInput: string;
-  setNewTitleInput: (input: string) => void;
-  setNewDescriptionInput: (input: string) => void;
-  newTaskType: TypedColumn;
-  setNewTaskType: (columnId: TypedColumn) => void;
-  searchString: string;
-  setSearchString: (searchString: string) => void;
+  deleteTask: (taskIndex: number, todoId: Todo, id: TypedColumn) => void;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
   board: {
     columns: new Map<TypedColumn, Column>(),
   },
+  $id: "",
+  prevTaskType: "todo",
+  newTaskType: "todo",
+  newTitleInput: "",
+  newDescriptionInput: "",
   searchString: "",
-  setSearchString: (searchString: string) =>
-    set({ searchString: searchString }),
+
+  setBoardState: (board) => set({ board }),
+
   getBoard: async () => {
     const board = await getTodoGroupedByColunm();
     set({ board });
   },
-  setBoardState: (board) => set({ board }),
 
-  newTitleInput: "",
-  newDescriptionInput: "",
+  setId: (id: string) => set({ $id: id }),
+
+  setPrevTaskType: (ColumnId: TypedColumn) => set({ prevTaskType: ColumnId }),
+
+  setNewTaskType: (ColumnId: TypedColumn) => set({ newTaskType: ColumnId }),
 
   setNewTitleInput: (input: string) => set({ newTitleInput: input }),
+
   setNewDescriptionInput: (input) => set({ newDescriptionInput: input }),
 
-  $id: "",
-  setId: (id: string) => set({ $id: id }),
+  setSearchString: (searchString: string) =>
+    set({ searchString: searchString }),
 
   updateTodoInDb: async (todo, columnId) => {
     await databases.updateDocument(
@@ -180,9 +189,4 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       };
     });
   },
-
-  newTaskType: "todo",
-  setNewTaskType: (ColumnId: TypedColumn) => set({ newTaskType: ColumnId }),
-  prevTaskType: "todo",
-  setPrevTaskType: (ColumnId: TypedColumn) => set({ prevTaskType: ColumnId }),
 }));
